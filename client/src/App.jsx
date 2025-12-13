@@ -1,8 +1,15 @@
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import Home from "./pages/Home";
+import Bookings from "./pages/Bookings";
+
 function App() {
   return (
-    <h1 className="text-3xl font-bold text-green-600">
-      Tailwind CLI Working
-    </h1>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/bookings" element={<Bookings />} />
+      </Routes>
+    </BrowserRouter>
   );
 }
 
