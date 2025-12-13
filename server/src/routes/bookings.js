@@ -18,38 +18,38 @@
 
 const express = require("express");
 const router = express.Router();
-const Booking = require("../models/Booking");
-const { createBooking } = require("../services/bookingService");
+const Booking = require("../models/Booking.js");
+const { createBooking } = require("../services/bookingService.js");
 
 router.post("/book", async (req, res, next) => {
-    try {
-        const {flightId,passengerName} = req.body;
-        if(!flightId || !passengerName){
-            throw new Error("INVALID_INPUT");
-        }
-        const booking = await createBooking({flightId,passengerName});
-         res.json({
+  try {
+    const { flightId, passengerName } = req.body;
+    if (!flightId || !passengerName) {
+      throw new Error("INVALID_INPUT");
+    }
+    const booking = await createBooking({ flightId, passengerName });
+    res.json({
       pnr: booking.pnr,
       flightId: booking.flightId,
       finalPrice: booking.finalPrice,
-      ticketPath: booking.ticketPath
+      ticketPath: booking.ticketPath,
     });
-    } catch (err) {
-      next(err);   
-    }
+  } catch (err) {
+    next(err);
+  }
 });
 
 // get bookings
 
-router.get("/bookings", async(req,res,next)=>{
-    try {
-        const bookings = Booking.find({userId: "demo_user"})
-        .sort({bookingTime: -1})
-        .lean();
-        res.json({bookings});
-    } catch (error) {
-        next(error);
-    }
+router.get("/bookings", async (req, res, next) => {
+  try {
+    const bookings = await Booking.find({ userId: "demo_user" })
+      .sort({ bookingTime: -1 })
+      .lean();
+    res.json({ bookings });
+  } catch (error) {
+    next(error);
+  }
 });
 
 module.exports = router;
