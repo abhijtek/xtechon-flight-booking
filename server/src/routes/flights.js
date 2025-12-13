@@ -28,7 +28,7 @@ router.get("/", async (req, res, next) => {
 router.get("/:flightId/price",async(req,res,next)=>{
     try {
         const {flightId} = req.params; // when data is derived from req
-        const d = await computePrice(flightId);
+        const d =  await computePrice(flightId);
         return res.json(d);
     } catch (err) {
         next(err);
