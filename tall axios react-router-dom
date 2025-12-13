@@ -1,0 +1,10 @@
+[33ma2a7dbc[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmain[m[33m)[m setup tailwind css using cli
+[33m247ed4a[m chore: initialize react frontend using vite
+[33m4ccea47[m feat: register booking routes
+[33m818ea40[m feat: add booking and booking history routes
+[33m290d11e[m feat:add bookiing service with wallet deduction
+[33m0c331b0[m feat: addticket html generator
+[33md35ae58[m feat: add pnr generator utility
+[33mfc7457c[m[33m ([m[1;31morigin/main[m[33m)[m server: connect to MongoDb using env and register routes
+[33m1a8ef34[m day1 : complete backend setup and surge pricing
+[33meaf8088[m feat: initial backend server setup

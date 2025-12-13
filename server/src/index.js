@@ -16,6 +16,12 @@ app.use(express.json());
 // app.use("/route",router);
 
 //routes
+const path = require("path");
+
+app.use(
+  "/tickets",
+  express.static(path.join(__dirname, "../tickets"))
+);
 
 app.use("/api",bookingRouter);
 app.use("/api/flights", flightsRouter);

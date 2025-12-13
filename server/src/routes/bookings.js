@@ -1,54 +1,40 @@
-// User clicks Book
-//    ↓
-// Record booking attempt
-//    ↓
-// Calculate price (surge logic)
-//    ↓
-// Check wallet
-//    ↓
-// Deduct wallet atomically
-//    ↓
-// Generate PNR
-//    ↓
-// Create booking record
-//    ↓
-// Generate ticket file
-//    ↓
-// Return response
-
 const express = require("express");
 const router = express.Router();
 const Booking = require("../models/Booking.js");
 const { createBooking } = require("../services/bookingService.js");
 
+// CREATE BOOKING
 router.post("/book", async (req, res, next) => {
   try {
-    const { flightId, passengerName } = req.body;
-    if (!flightId || !passengerName) {
-      throw new Error("INVALID_INPUT");
-    }
-    const booking = await createBooking({ flightId, passengerName });
+    const { flightId, passengerName, email } = req.body;
+
+    if (!email) throw new Error("EMAIL_REQUIRED");
+
+    const booking = await createBooking({
+      flightId,
+      passengerName,
+      email,
+    });
+
     res.json({
       pnr: booking.pnr,
-      flightId: booking.flightId,
-      finalPrice: booking.finalPrice,
-      ticketPath: booking.ticketPath,
+      message: "Booking confirmed. Ticket sent to email.",
     });
   } catch (err) {
     next(err);
   }
 });
 
-// get bookings
-
+// ✅ BOOKING HISTORY (THIS WAS MISSING)
 router.get("/bookings", async (req, res, next) => {
   try {
     const bookings = await Booking.find({ userId: "demo_user" })
       .sort({ bookingTime: -1 })
       .lean();
+
     res.json({ bookings });
-  } catch (error) {
-    next(error);
+  } catch (err) {
+    next(err);
   }
 });
 

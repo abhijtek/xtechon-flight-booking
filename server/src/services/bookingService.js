@@ -1,61 +1,53 @@
-const BookingAttempt = require("../models/BookingAttempt.js")
+const { generateTicketPDF } = require("../utils/ticketPdfGenerator");
+const { sendTicketEmail } = require("../utils/emailService");
 
 const Wallet = require("../models/Wallet.js");
 const Booking = require("../models/Booking.js");
 const { computePrice } = require("./priceService.js");
 const { generatePNR } = require("../utils/pnrGenerator.js");
-const { generateTicket } = require("../utils/ticketGenerator.js");
 
-async function createBooking({flightId, passengerName}){
+async function createBooking({ flightId, passengerName, email }) {
   const userId = "demo_user";
-    // register bookign attempt
-    await BookingAttempt.create({flightId,userId});
 
-    const priceData = await computePrice(flightId);
+  // 1. Compute price
+  const priceData = await computePrice(flightId);
 
-    // filter 
-   const filter = {
-    userId : userId,
-    balance: {
-        $gte: priceData.finalPrice
-    },
-   }
-    // update
-    const update = {
-        $inc : {
-            balance : -priceData.finalPrice
-        }
-    }
-    // options
-    const options = {
-        new : true
-    }
-    const wallet = await Wallet.findOneAndUpdate(filter,update,options);
+  // 2. Wallet deduction (atomic)
+  const wallet = await Wallet.findOneAndUpdate(
+    { userId, balance: { $gte: priceData.finalPrice } },
+    { $inc: { balance: -priceData.finalPrice } },
+    { new: true }
+  );
 
-    if(!wallet){
-        throw new Error("INSUFFICIENT_BALANCE");
-    }
+  if (!wallet) {
+    throw new Error("INSUFFICIENT_BALANCE");
+  }
 
-    // pnr genertion - not await, generate in background
-    const pnr = generatePNR();
+  // 3. Create booking
+  const pnr = generatePNR();
 
-    // create booking
-    const booking = await Booking.create({
-        pnr,
-        userId,
-        flightId,
-        passengerName,
-        finalPrice: priceData.finalPrice,
-        bookingTime : new Date()
-    });
+  const booking = await Booking.create({
+    pnr,
+    userId,
+    flightId,
+    passengerName,
+    finalPrice: priceData.finalPrice,
+    email,
+    bookingTime: new Date(),
+  });
 
-    // generate ticket
-    // gentick return file path of ticket html file
-    const ticketPath = generateTicket(booking);
-    booking.ticketPath = ticketPath;
-    await booking.save();
+  // 4. Generate PDF
+  const { fileSystemPath, publicPath } =
+    generateTicketPDF(booking);
 
-    return booking;
+  // store public path for frontend download
+  booking.ticketPath = publicPath;
+  await booking.save();
+
+  // 5. Send email (USE FILESYSTEM PATH)
+  await sendTicketEmail(email, fileSystemPath, booking);
+
+  return booking;
 }
 
-module.exports = {createBooking};
+module.exports = { createBooking };
