@@ -6,12 +6,18 @@ const helmet = require("helmet");
 
 const flightsRouter = require("./routes/flights.js");
 
+const bookingRouter = require("./routes/bookings.js");
+
+
 const app = express();
 app.use(helmet());
 app.use(cors());
 app.use(express.json());
+// app.use("/route",router);
 
 //routes
+
+app.use("/api",bookingRouter);
 app.use("/api/flights", flightsRouter);
 
 //health
