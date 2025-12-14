@@ -1,5 +1,5 @@
-const Flight = require("../models/Flight.js");
-const BookingAttempt = require("../models/BookingAttempt.js");
+const Booking = require("../models/Booking");
+const Flight = require("../models/Flight");
 
 async function computePrice(flightId) {
   const flight = await Flight.findOne({ flightId });
@@ -9,52 +9,43 @@ async function computePrice(flightId) {
 
   const now = Date.now();
   const fiveMinAgo = new Date(now - 5 * 60 * 1000);
-  const tenMinAgo = new Date(now - 10 * 60 * 1000);
 
-  // Count attempts within 5 minutes
-  const count5 = await BookingAttempt.countDocuments({
+  const recentBookings = await Booking.find({
     flightId,
-    createdAt: { $gte: fiveMinAgo },
-  });
-
-  // Latest attempt
-  const lastAttempt = await BookingAttempt.findOne({ flightId })
-    .sort({ createdAt: -1 })
+    bookingTime: { $gte: fiveMinAgo }
+  })
+    .sort({ bookingTime: 1 }) // oldest → newest
     .lean();
 
-  // If 3+ attempts in last 5 minutes → surge
-  if (count5 >= 3) {
-    const lastThree = await BookingAttempt.find({
-      flightId,
-      createdAt: { $gte: fiveMinAgo },
-    })
-      .sort({ createdAt: -1 })
-      .limit(3)
-      .lean();
-
-    const latestOfThree = lastThree[0]?.createdAt || new Date();
-    const surgeExpiry = new Date(new Date(latestOfThree).getTime() + 10 * 60 * 1000);
-
-    const finalPrice = Math.ceil(basePrice * 1.1);
-    return { basePrice, finalPrice, surgeActive: true, surgeExpiry };
-  }
-
-  // If no attempts in 10 minutes → no surge
-  if (!lastAttempt || new Date(lastAttempt.createdAt) < tenMinAgo) {
+  if (recentBookings.length < 3) {
     return {
       basePrice,
       finalPrice: basePrice,
       surgeActive: false,
-      surgeExpiry: null,
+      surgeExpiry: null
     };
   }
 
-  // Default
+  const thirdBookingTime = recentBookings[2].bookingTime;
+
+  const surgeExpiry = new Date(
+    new Date(thirdBookingTime).getTime() + 10 * 60 * 1000
+  );
+
+  if (surgeExpiry < new Date()) {
+    return {
+      basePrice,
+      finalPrice: basePrice,
+      surgeActive: false,
+      surgeExpiry: null
+    };
+  }
+
   return {
     basePrice,
-    finalPrice: basePrice,
-    surgeActive: false,
-    surgeExpiry: null,
+    finalPrice: Math.ceil(basePrice * 1.1),
+    surgeActive: true,
+    surgeExpiry
   };
 }
 
