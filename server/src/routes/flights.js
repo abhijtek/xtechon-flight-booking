@@ -2,37 +2,41 @@ const express = require("express");
 const router = express.Router();
 
 const Flight = require("../models/Flight.js");
-
 const { computePrice } = require("../services/priceService.js");
 
-// home
+// GET /api/flights?departure=&arrival=&page=
 router.get("/", async (req, res, next) => {
   try {
-    const { departure, arrival } = req.query;
+    const { departure, arrival, page = 1 } = req.query;
+
     const filter = {};
     if (departure) filter.departureCity = departure;
     if (arrival) filter.arrivalCity = arrival;
 
-    // returning atmost 10
+    const limit = 10;
+    const skip = (Number(page) - 1) * limit;
+
     const flights = await Flight.find(filter)
-      .sort({ createdAt: -1 })
-      .limit(10)
-      .lean(); // just saying again to remind myself it will return a json object rather than mongoose obj
+      .sort({ flightId: 1 })
+      .skip(skip)
+      .limit(limit)
+      .lean();
+
     return res.json({ flights });
   } catch (err) {
-    next(err); // going to next middlware
+    next(err);
   }
 });
 
-// api/flights/:flightId/price
-router.get("/:flightId/price",async(req,res,next)=>{
-    try {
-        const {flightId} = req.params; // when data is derived from req
-        const d =  await computePrice(flightId);
-        return res.json(d);
-    } catch (err) {
-        next(err);
-    }
+// GET /api/flights/:flightId/price
+router.get("/:flightId/price", async (req, res, next) => {
+  try {
+    const { flightId } = req.params;
+    const price = await computePrice(flightId);
+    return res.json(price);
+  } catch (err) {
+    next(err);
+  }
 });
 
 module.exports = router;
