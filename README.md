@@ -14,67 +14,67 @@ Stable sorting for predictable results
 
 💸 Dynamic Surge Pricing
 
-Surge pricing is based on successful bookings
+-Surge pricing is based on successful bookings
 
-If 3 bookings occur within 5 minutes for the same flight:
+-If 3 bookings occur within 5 minutes for the same flight:
 
-Price increases by 10%
+-Price increases by 10%
 
-Surge automatically expires 10 minutes after activation
+-Surge automatically expires 10 minutes after activation
 
-Users only see the final price (no internal surge indicators)
+-Users only see the final price (no internal surge indicators)
 
 🧾 Booking Flow
 
-Check latest price before booking
+-Check latest price before booking
 
-Wallet balance is validated atomically
+-Wallet balance is validated atomically
 
-Booking fails gracefully if balance is insufficient
+-Booking fails gracefully if balance is insufficient
 
-Each successful booking generates:
+-Each successful booking generates:
 
-Unique PNR
+-Unique PNR
 
-Booking record
+-Booking record
 
-PDF ticket
+-PDF ticket
 
 📄 Ticket PDF Generation
 
-Ticket is generated using PDFKit
+-Ticket is generated using PDFKit
 
 Contains:
 
-PNR
+-PNR
 
-Passenger name
+-Passenger name
 
-Flight ID
+-Flight ID
 
-Price paid
+-Price paid
 
-Booking timestamp
+-Booking timestamp
 
-Ticket is sent via email
+-Ticket is sent via email
 
-Ticket can be downloaded again from booking history
+-Ticket can be downloaded again from booking history
 
 📚 Booking History
 
-View all previous bookings
+-View all previous bookings
 
-Each booking shows:
+-Each booking shows:
 
-Flight details
+-Flight details
 
-Amount paid
+-Amount paid
 
-Booking date
+-Booking date
 
-PNR
+-PNR
 
-Download ticket option
+-Download ticket option
 
 🧠 Design Decisions
 
