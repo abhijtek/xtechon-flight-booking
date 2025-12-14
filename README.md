@@ -181,8 +181,14 @@ Surge logic automatically resets after expiry
 
 Project focuses on correctness, clarity, and scope adherence
 
+## Deployment
+
+This project is intended to be run locally for evaluation.  
+Cloud deployment was tested, but due to free-tier SMTP and filesystem limitations, local execution provides the most reliable experience.
+
+
 👤 Author
 
-Abhijeet Singh Rajput
-B.Tech Mechanical Engineering
-IIT (ISM) Dhanbad
+Abhijeet Singh Rajput<br>
+B.Tech Mechanical Engineering<br>
+IIT (ISM) Dhanbad<br>
