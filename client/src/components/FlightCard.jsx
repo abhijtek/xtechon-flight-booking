@@ -34,7 +34,6 @@ export default function FlightCard({ flight }) {
       {price && (
         <p className="mt-2">
           ₹{price.finalPrice}
-          {price.surgeActive && " (Surge Active)"}
         </p>
       )}
     </div>

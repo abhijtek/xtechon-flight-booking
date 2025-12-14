@@ -1,5 +1,6 @@
 const { generateTicketPDF } = require("../utils/ticketPdfGenerator");
 const { sendTicketEmail } = require("../utils/emailService");
+const BookingAttempt = require("../models/BookingAttempt");
 
 const Wallet = require("../models/Wallet.js");
 const Booking = require("../models/Booking.js");
@@ -8,6 +9,12 @@ const { generatePNR } = require("../utils/pnrGenerator.js");
 
 async function createBooking({ flightId, passengerName, email }) {
   const userId = "demo_user";
+// record booking attempt FIRST
+await BookingAttempt.create({
+  flightId,
+  userId: "demo_user",
+  createdAt: new Date(),
+});
 
   // 1. Compute price
   const priceData = await computePrice(flightId);

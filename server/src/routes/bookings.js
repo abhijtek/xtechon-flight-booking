@@ -25,7 +25,7 @@ router.post("/book", async (req, res, next) => {
   }
 });
 
-// ✅ BOOKING HISTORY (THIS WAS MISSING)
+
 router.get("/bookings", async (req, res, next) => {
   try {
     const bookings = await Booking.find({ userId: "demo_user" })
