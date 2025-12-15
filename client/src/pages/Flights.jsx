@@ -29,7 +29,7 @@ export default function Flights() {
       }
     };
 
-    fetchFlights(); // 🔥 ALWAYS fetch for current page
+    fetchFlights(); 
   }, [page]);
 
   return (

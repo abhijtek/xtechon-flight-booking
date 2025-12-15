@@ -20,7 +20,7 @@ const confirmBooking = async () => {
       email,
     });
 
-    // ✅ Go to booking history
+   
     navigate("/bookings");
   } catch (err) {
     setError(err.response?.data?.error || "Booking failed");

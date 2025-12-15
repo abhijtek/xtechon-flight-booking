@@ -5,7 +5,7 @@ const path = require("path");
 function generateTicketPDF(booking) {
   const fileName = `${booking.pnr}.pdf`;
 
-  // 🔒 private filesystem path (used internally only)
+  // private filesystem path (used internally only)
   const fileSystemPath = path.join(
     __dirname,
     "../../tickets",
@@ -27,7 +27,7 @@ function generateTicketPDF(booking) {
 
   doc.end();
 
-  // 🌐 public path (safe to expose)
+  // public path (safe to expose)
   const publicPath = `tickets/${fileName}`;
 
   return { fileSystemPath, publicPath };

@@ -4,15 +4,15 @@ A full-stack flight booking application built as part of the XTechon Internship 
 The system supports flight listing, dynamic surge pricing, bookings with wallet deduction, PDF ticket generation, and booking history.
 
 🚀 Features
-🛫 Flight Discovery
+🛫 Flight Discovery<br>
 
-View available flights with pagination (10 flights per page)
+-View available flights with pagination (10 flights per page)<br>
 
-Clean and responsive UI
+-Clean and responsive UI<br>
 
-Stable sorting for predictable results
+-Stable sorting for predictable results<br>
 
-💸 Dynamic Surge Pricing
+💸 Dynamic Surge Pricing<br>
 
 -Surge pricing is based on successful bookings
 
@@ -78,16 +78,16 @@ Contains:
 
 🧠 Design Decisions
 
-Surge pricing is triggered by successful bookings, not clicks or price checks
+-Surge pricing is triggered by successful bookings, not clicks or price checks
 → reflects real demand and prevents abuse
 
-Backend handles all pricing logic to avoid client manipulation
+-Backend handles all pricing logic to avoid client manipulation
 
-No authentication was added to stay within assignment scope
+-No authentication was added to stay within assignment scope
 
-MongoDB Atlas is used for persistence
+-MongoDB Atlas is used for persistence
 
-Clean separation of concerns (routes, services, models)
+-Clean separation of concerns (routes, services, models)<br>
 
 🛠 Tech Stack
 Frontend
@@ -112,7 +112,7 @@ Mongoose
 
 PDFKit
 
-Nodemailer
+Nodemailer<br>
 
 📂 Project Structure
 xtechon-flight/
@@ -122,33 +122,49 @@ xtechon-flight/
 ├── README.md
 
 ⚙️ How to Run Locally
+
 1️⃣ Clone the repository
+
 git clone <repo-url>
+
 cd xtechon-flight
 
 2️⃣ Backend setup
+
 cd server
+
 npm install
 
 Create a .env file inside server/:
 
 PORT=4000
+
 MONGODB_URI=<your_mongodb_atlas_uri>
+
 DEFAULT_WALLET_BALANCE=50000
+
 
 Start the server:
 
 npm run dev
 
+
 3️⃣ Seed flights (optional but recommended)
+
 node seed/seedFlights.js
+
 
 This clears and reseeds the flights collection for predictable data.
 
+
 4️⃣ Frontend setup
+
 cd ../client
+
 npm install
+
 npm run dev
+
 
 Frontend runs on:
 
@@ -160,15 +176,20 @@ http://localhost:4000
 
 🧪 API Overview
 Get flights
+
 GET /api/flights?page=1
 
+
 Check price
+
 GET /api/flights/:flightId/price
 
 Book flight
+
 POST /api/book
 
 Get booking history
+
 GET /api/bookings
 
 📌 Notes
