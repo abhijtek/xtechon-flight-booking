@@ -125,8 +125,7 @@ xtechon-flight/<br>
 
 1️⃣ Clone the repository
 
-git clone <repo-url>
-
+git clone https://github.com/abhijtek/xtechon-flight-booking.git<br>
 cd xtechon-flight
 
 2️⃣ Backend setup
