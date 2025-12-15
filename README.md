@@ -114,12 +114,12 @@ PDFKit
 
 Nodemailer<br>
 
-📂 Project Structure
-xtechon-flight/
-├── client/ # React frontend
-├── server/ # Node + Express backend
-├── .gitignore
-├── README.md
+📂 Project Structure<br>
+xtechon-flight/<br>
+├── client/ # React frontend<br>
+├── server/ # Node + Express backend<br>
+├── .gitignore<br>
+├── README.md<br>
 
 ⚙️ How to Run Locally
 
