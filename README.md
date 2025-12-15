@@ -126,7 +126,7 @@ xtechon-flight/<br>
 1️⃣ Clone the repository
 
 git clone https://github.com/abhijtek/xtechon-flight-booking.git<br>
-cd xtechon-flight
+cd xtechon-flight-booking
 
 2️⃣ Backend setup
 
@@ -136,12 +136,26 @@ npm install
 
 Create a .env file inside server/:
 
-PORT=4000
+PORT=4000<br>
+MONGODB_URI= DB_URI<br>
 
-MONGODB_URI=<your_mongodb_atlas_uri>
+# Initial wallet balance for user
 
-DEFAULT_WALLET_BALANCE=50000
+DEFAULT_WALLET_BALANCE=50000<br>
 
+# Email configuration (REQUIRED for booking)
+EMAIL_USER= gmail_address<br>
+EMAIL_PASS= gmail_app_password<br>
+
+# Important Notes<br>
+
+:-EMAIL_USER and EMAIL_PASS are used by Nodemailer for sending ticket emails
+
+:-You must use a Gmail App Password, not your normal Gmail password
+
+:-Email credentials used for evaluation are shared separately
+
+:-The .env file must never be committed to GitHub
 
 Start the server:
 
