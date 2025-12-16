@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const API = axios.create({
-  baseURL: "https://xtechon-flight-booking.onrender.com/api",
+  baseURL: "http://localhost:4000/api",
 });
 
 export const getFlights = ({ page }) =>
