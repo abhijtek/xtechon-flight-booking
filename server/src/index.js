@@ -17,6 +17,13 @@ app.use(express.json());
 
 //routes
 const path = require("path");
+const fs = require("fs");
+
+
+const ticketsDir = path.join(__dirname, "../tickets");
+if (!fs.existsSync(ticketsDir)) {
+  fs.mkdirSync(ticketsDir, { recursive: true });
+}
 
 app.use(
   "/tickets",
